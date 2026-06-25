@@ -1,11 +1,4 @@
 """Central configuration for MovieMatch.
-
-Loads the TMDB API key from (in order of precedence):
-  1. the ``TMDB_API_KEY`` environment variable, or
-  2. a ``.env`` file in the project root (simple ``KEY=value`` parser).
-
-Keeping all paths and constants here means the rest of the code never has to
-guess where things live.
 """
 
 from __future__ import annotations

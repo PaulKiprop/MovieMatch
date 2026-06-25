@@ -1,11 +1,4 @@
 """A responsive, scrollable grid of movie poster "cards".
-
-Each card shows the poster with a gold rating badge overlaid in the corner,
-the title and the year. Cards highlight on hover and open the details window
-when clicked. Posters are fetched lazily on background threads so the grid
-appears instantly and fills in as images arrive.
-
-This is the visual centrepiece used by the Home, Search and Favourites tabs.
 """
 
 from __future__ import annotations

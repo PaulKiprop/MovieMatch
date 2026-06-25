@@ -1,7 +1,4 @@
 """Domain model for a movie.
-
-A single :class:`Movie` dataclass is used across the whole app (API results,
-storage, recommendations, analytics) so every layer speaks the same language.
 """
 
 from __future__ import annotations

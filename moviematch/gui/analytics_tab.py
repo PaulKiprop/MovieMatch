@@ -1,6 +1,3 @@
-"""Analytics tab: visualise the user's viewing habits with matplotlib charts
-embedded directly in the Tkinter window."""
-
 from __future__ import annotations
 
 from tkinter import ttk

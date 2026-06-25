@@ -1,9 +1,5 @@
 """Home / landing tab.
 
-Loads a curated list of movies as soon as the app opens, so the user has
-something to browse and discover straight away — without having to search
-first. A category selector switches between the latest releases, popular,
-top-rated and upcoming titles.
 """
 
 from __future__ import annotations

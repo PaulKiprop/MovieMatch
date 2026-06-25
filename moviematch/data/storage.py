@@ -1,13 +1,10 @@
 """Local persistence using SQLite (standard library, no external deps).
 
 Three concerns are stored:
-  * ``movies``     - a cache of metadata so favourites/ratings survive offline
-  * ``favorites``  - which movies the user saved
-  * ``ratings``    - the user's 1-5 star ratings
-  * ``history``    - a log of viewed movies (powers the analytics tab)
-
-All movie-specific tables reference ``movies(movie_id)`` so we never duplicate
-title/genre data.
+  * ``movies``     
+  * ``favorites``  
+  * ``ratings``   
+  * ``history``   
 """
 
 from __future__ import annotations

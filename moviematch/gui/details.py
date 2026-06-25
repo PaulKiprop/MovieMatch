@@ -1,9 +1,6 @@
 """The movie details window.
 
 Opened when a user activates a movie anywhere in the app. Shows full metadata
-(fetched fresh from TMDB so keywords are available for the recommender), the
-poster, a favourite toggle and a star-rating control. Any change is written to
-storage and the rest of the app is refreshed.
 """
 
 from __future__ import annotations

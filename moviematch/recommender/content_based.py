@@ -1,12 +1,5 @@
 """Content-based recommendation engine.
 
-Idea: build a *taste profile* from the movies the user likes (favourites and
-highly-rated movies), where each genre/keyword gets a weight. Score every
-candidate movie by how well its genres/keywords overlap that profile, using
-cosine similarity, and return the best unseen matches.
-
-This is fully explainable (we can say *why* a movie was recommended) and needs
-no training data beyond the user's own activity.
 """
 
 from __future__ import annotations
