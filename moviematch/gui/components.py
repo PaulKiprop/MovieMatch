@@ -41,9 +41,9 @@ def run_async(
         try:
             result = work()
         except Exception as exc:  # noqa: BLE001 - surfaced to on_error
-            widget.after(0, lambda: on_error(exc))
+            widget.after(0, lambda exc=exc: on_error(exc))
         else:
-            widget.after(0, lambda: on_success(result))
+            widget.after(0, lambda result=result: on_success(result))
 
     threading.Thread(target=runner, daemon=True).start()
 
