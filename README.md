@@ -83,6 +83,39 @@ python main.py
 4. Results are shown with a *match %* and the **reasons** they were picked
    (the shared genres/keywords) — so recommendations are explainable.
 
+## Offline mode (no API key needed)
+
+The repository ships with a bundled dataset of real TMDB movies in
+`data_store/movies_offline.json`.  When MovieMatch starts and **no API key is
+found**, it automatically switches to this local dataset — all features work:
+
+| Feature | Offline behaviour |
+|---|---|
+| 🏠 Home (Now Playing / Popular / Top Rated) | Served from local dataset |
+| 🔍 Search | Case-insensitive title search in local dataset |
+| ❤️ Favourites & ⭐ Ratings | Fully functional (stored in SQLite as usual) |
+| 🤝 Recommendations | Content-based engine runs on local dataset |
+| 📊 Analytics | Fully functional |
+
+A one-time info dialog is shown on launch to let the user know they are in
+offline mode.
+
+### Re-generating the offline dataset
+
+If you want to refresh the bundled data with the latest movies from TMDB
+(requires your own API key):
+
+```bash
+python scripts/seed_offline.py
+```
+
+This fetches ~240 movies across the Popular, Top-Rated, Now-Playing, and
+Upcoming endpoints (3 pages each), including full details and keywords for the
+recommendation engine, and writes them to `data_store/movies_offline.json`.
+Commit the updated file to the repository afterwards.
+
+---
+
 ## Tests
 
 ```bash

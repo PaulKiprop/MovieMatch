@@ -5,6 +5,7 @@ from __future__ import annotations
 import tkinter as tk
 from tkinter import messagebox, ttk
 
+from ..api.local_client import LocalClient, OfflineDataError
 from ..api.tmdb_client import TMDBClient, TMDBError
 from ..data.storage import Storage
 from ..models import Movie
@@ -17,17 +18,7 @@ from .recommend_tab import RecommendTab
 from .search_tab import SearchTab
 
 
-class _NullClient:
-    """Stand-in used when no API key is configured: every call fails with a
-    clear, actionable message instead of an obscure ``AttributeError``."""
-
-    def __init__(self, message: str):
-        self._message = message
-
-    def __getattr__(self, _name):
-        def _fail(*_args, **_kwargs):
-            raise TMDBError(self._message)
-        return _fail
+# _NullClient removed — LocalClient is used as the offline fallback instead.
 
 
 class MovieMatchApp:
@@ -48,13 +39,25 @@ class MovieMatchApp:
     def _init_tmdb(self):
         try:
             return TMDBClient()
-        except TMDBError as exc:
-            messagebox.showwarning(
-                "TMDB API key needed",
-                f"{exc}\n\nSearch and recommendations are disabled until a key is "
-                "configured. Your saved favourites and analytics still work.",
+        except TMDBError:
+            pass   # no API key — fall through to offline mode
+        try:
+            client = LocalClient()
+            messagebox.showinfo(
+                "Offline mode",
+                "No TMDB API key found.\n\n"
+                "MovieMatch is running with the bundled offline dataset so you can "
+                "explore all features without an internet connection or API key.\n\n"
+                "To use live data, add your key to the .env file.",
             )
-            return _NullClient(str(exc))
+            return client
+        except OfflineDataError as exc:
+            messagebox.showerror(
+                "No data available",
+                f"{exc}\n\nEither add a TMDB API key to .env or run:\n"
+                "  python scripts/seed_offline.py",
+            )
+            raise SystemExit(1) from exc
 
     # ---- layout ----------------------------------------------------------
     def _build_tabs(self) -> None:
@@ -78,9 +81,8 @@ class MovieMatchApp:
         self._notebook = notebook
 
         self.favorites_tab.refresh()
-        # Populate the landing page with the latest movies as soon as we open.
-        if not isinstance(self.tmdb, _NullClient):
-            self.root.after(100, self.home_tab.load)
+        # Populate the landing page on startup — works for both live and offline clients.
+        self.root.after(100, self.home_tab.load)
 
     def _on_tab_changed(self, _event) -> None:
         current = self._notebook.nametowidget(self._notebook.select())
